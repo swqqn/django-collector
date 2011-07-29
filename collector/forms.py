@@ -1,11 +1,8 @@
-# -*- coding: utf-8 -*-
-
-
 from django.forms import Form, EmailField
 
 
 class CollectorForm(Form):
-    collectorEmail = EmailField()
+    email = EmailField()
 
 
 # Local Variables:
