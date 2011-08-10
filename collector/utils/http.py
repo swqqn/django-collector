@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-
-
 import json
 
 from django.http import HttpResponse
@@ -9,6 +6,7 @@ from django.http import HttpResponse
 class JSONResponse(HttpResponse):
 
     mimetype = 'application/json'
+
 
     def __init__(self, data, *args, **kwargs):
         data = json.dumps(data)
