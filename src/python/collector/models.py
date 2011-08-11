@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 
+
 from django.db import models
 
 import collector.utils.uid as UID
 
-__UID_NUMCHARS__ = UID.get_default_numchars()
+uid_length = UID.get_default_length()
 
 
 class Blob(models.Model):
-    uid = models.CharField(max_length=__UID_NUMCHARS__, unique=True,
+    uid = models.CharField(max_length=uid_length, unique=True,
                            default=UID.generate)
     email = models.EmailField(max_length=128, unique=False)
 
@@ -17,6 +18,7 @@ class Blob(models.Model):
 
     def __unicode__(self):
         return self.email
+
 
 # Local Variables:
 # indent-tabs-mode: nil
