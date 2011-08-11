@@ -1,12 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from collector.settings import *
 
 import os
-import random
 
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
 
 DATABASES = {
     'default': {
@@ -15,12 +11,10 @@ DATABASES = {
     }
 }
 
-ROOT_URLCONF = 'collector.tests.urls'
+INSTALLED_APPS = ('collector',)
 
-EMAIL_HOST = 'localhost'
-EMAIL_PORT = random.randint(1025, 9999)
+ROOT_URLCONF = 'tests.urls'
 
-COLLECTOR_SEND_EMAIL = True
 
 # Local Variables:
 # indent-tabs-mode: nil
