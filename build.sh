@@ -1,20 +1,16 @@
 #!/bin/sh
 
-COLLECTOR_TESTS=
-export COLLECTOR_TESTS
+LNDLRD_HOME="$(dirname $0)"
+. "${LNDLRD_HOME}"/etc/common
 
-COLLECTOR_HOME="$(dirname $0)"
-. "${COLLECTOR_HOME}"/etc/common
+cd "${LNDLRD_HOME}"
 
-cd "${COLLECTOR_HOME}"
+if [ ! -f setup.cfg ]; then
+        sed -e "s#\@prefix\@#${LNDLRD_HOME}#g;" setup.cfg.in > setup.cfg
+fi
 
-TARGET="$@"
-TARGET="${TARGET:-develop}"
-
-"${COLLECTOR_BIN}"/python.sh setup.py -q ${TARGET}
+"${LNDLRD_BIN}"/python.sh setup.py -q develop
 [ $? != 0 ] && echo "ERROR!!!" && exit 1
-
-"${COLLECTOR_BIN}"/django-migrate.sh
 
 exit 0
 

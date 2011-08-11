@@ -1,11 +1,11 @@
 #!/bin/sh
 
-COLLECTOR_HOME="$(dirname $0)"/..
-export COLLECTOR_HOME
+LNDLRD_HOME="$(dirname $0)"/..
+export LNDLRD_HOME
 
-. "${COLLECTOR_HOME}"/etc/common
+. "${LNDLRD_HOME}"/etc/common
 
-"${NOSETESTS}" ${NOSETESTSFLAGS} ${COLLECTOR_NOSETESTSFLAGS} "$@"
+"${NOSETESTS}" ${NOSETESTSFLAGS} ${LNDLRD_NOSETESTSFLAGS} "$@"
 
 # Local Variables:
 # indent-tabs-mode: nil

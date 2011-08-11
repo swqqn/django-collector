@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 
-from django.conf import settings
+
+from django.forms import Form, EmailField
 from django.http import HttpResponse
-from django.shortcuts import redirect, render_to_response
 from django.views.decorators.http import require_http_methods
 
 from collector.forms import CollectorForm
 from collector.models import Blob
-from collector.utils.email import send_email
 from collector.utils.http import JSONResponse201
 
 
@@ -24,7 +23,7 @@ def create(request):
 
     blob.save()
 
-    send_email(request, blob)
+    # TODO: send e-mail
 
     return JSONResponse201(blob.to_json())
 
@@ -34,31 +33,12 @@ def delete(request, uid):
     try:
         blob = Blob.objects.get(uid=uid)
     except Blob.DoesNotExist:
-        return redirect(blob404)
+        return HttpResponse(status=404)
 
     blob.delete()
 
-    return redirect(deleted)
+    return HttpResponse(status=204)
 
-
-@require_http_methods(['GET'])
-def blob404(request):
-    try:
-        template_name = settings.COLLECTOR_BLOB404_TEMPLATE
-    except:
-        template_name = 'collector/blob404.html'
-
-    return render_to_response(template_name)
-
-
-@require_http_methods(['GET'])
-def deleted(request):
-    try:
-        template_name = settings.COLLECTOR_DELETED_TEMPLATE
-    except:
-        template_name = 'collector/deleted.html'
-
-    return render_to_response(template_name)
 
 # Local Variables:
 # indent-tabs-mode: nil
