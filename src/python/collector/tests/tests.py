@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 import json
 import string
 
@@ -12,35 +13,35 @@ from collector.models import Blob
 from collector.utils.http import JSONResponse201
 import collector.utils.uid as UID
 
-__UID_DEFAULT_NUMCHARS__ = 40
-__UID_DEFAULT_USECHARS__ = string.ascii_letters + string.digits
+uid_default_length = 40
+uid_default_string = string.ascii_letters + string.digits
 
 
 def test_uid_defaults():
-    assert UID.get_default_numchars() == \
-        __UID_DEFAULT_NUMCHARS__
+    assert UID.get_default_length() == \
+        uid_default_length
 
-    assert UID.get_default_usechars() == \
-        __UID_DEFAULT_USECHARS__
+    assert UID.get_default_string() == \
+        uid_default_string
 
 
 def test_uid_generate():
     uid = UID.generate()
-    assert len(uid) == __UID_DEFAULT_NUMCHARS__
+    assert len(uid) == uid_default_length
     for x in uid:
-        assert x in __UID_DEFAULT_USECHARS__
+        assert x in uid_default_string
 
-    uid = UID.generate(numchars=128)
+    uid = UID.generate(length=128)
     assert len(uid) == 128
     for x in uid:
-        assert x in __UID_DEFAULT_USECHARS__
+        assert x in uid_default_string
 
-    uid = UID.generate(usechars='xYz')
-    assert len(uid) == __UID_DEFAULT_NUMCHARS__
+    uid = UID.generate(string='xYz')
+    assert len(uid) == uid_default_length
     for x in uid:
         assert x in 'xYz'
 
-    uid = UID.generate(numchars=128, usechars='xYz')
+    uid = UID.generate(length=128, string='xYz')
     assert len(uid) == 128
     for x in uid:
         assert x in 'xYz'
@@ -120,17 +121,17 @@ def test_create_view():
 def test_create_view_errors():
     client = Client()
 
-    # Not Found
+    # Moved Permanently
     rc = client.get('/collector')
-    assert rc.status_code == 404
+    assert rc.status_code == 301
 
     # Method Not Allowed
     rc = client.get('/collector/')
     assert rc.status_code == 405
 
-    # Not Found
+    # Moved Permanently
     rc = client.post('/collector')
-    assert rc.status_code == 404
+    assert rc.status_code == 301
 
     # Bad Request
     rc = client.post('/collector/')
@@ -163,13 +164,13 @@ def test_delete_view():
     blob.uid = 'xYz'
     blob.save()
 
-    # Moved Temporarily
+    # No Content
     rc = client.get('/collector/xYz/')
-    assert rc.status_code == 302
+    assert rc.status_code == 204
 
-    # Moved Temporarily
+    # Not Found
     rc = client.get('/collector/xYz/')
-    assert rc.status_code == 302
+    assert rc.status_code == 404
 
     Blob.objects.get(email=email)
 
@@ -177,65 +178,22 @@ def test_delete_view():
 def test_delete_view_errors():
     client = Client()
 
-    # Not Found
+    # Moved Permanently
     rc = client.post('/collector/xYz')
-    assert rc.status_code == 404
+    assert rc.status_code == 301
 
     # Method Not Allowed
     rc = client.post('/collector/xYz/')
     assert rc.status_code == 405
 
-    # Not Found
+    # Moved Permanently
     rc = client.get('/collector/xYz')
-    assert rc.status_code == 404
-
-
-def test_blob404_view():
-    client = Client()
-
-    # OK
-    rc = client.get('/collector/blob404/')
-    assert rc.status_code == 200
-
-
-def test_blob404_view_errors():
-    client = Client()
+    assert rc.status_code == 301
 
     # Not Found
-    rc = client.post('/collector/blob404')
+    rc = client.get('/collector/xYz/')
     assert rc.status_code == 404
 
-    # Method Not Allowed
-    rc = client.post('/collector/blob404/')
-    assert rc.status_code == 405
-
-    # Not Found
-    rc = client.get('/collector/blob404')
-    assert rc.status_code == 404
-
-
-def test_deleted_view():
-    client = Client()
-
-    # OK
-    rc = client.get('/collector/deleted/')
-    assert rc.status_code == 200
-
-
-def test_deleted_view_errors():
-    client = Client()
-
-    # Not Found
-    rc = client.post('/collector/deleted')
-    assert rc.status_code == 404
-
-    # Method Not Allowed
-    rc = client.post('/collector/deleted/')
-    assert rc.status_code == 405
-
-    # Not Found
-    rc = client.get('/collector/deleted')
-    assert rc.status_code == 404
 
 # Local Variables:
 # indent-tabs-mode: nil
