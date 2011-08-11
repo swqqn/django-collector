@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+
 import json
 
 from django.http import HttpResponse
@@ -19,6 +20,7 @@ class JSONResponse(HttpResponse):
 class JSONResponse201(JSONResponse):
 
     status = 201
+
 
 # Local Variables:
 # indent-tabs-mode: nil

@@ -1,10 +1,8 @@
-# -*- coding: utf-8 -*-
+from lndlrd.manage import *
 
-import sys
 
-from django.core.management import execute_from_command_line
+execute_manager(settings)
 
-execute_from_command_line(sys.argv)
 
 # Local Variables:
 # indent-tabs-mode: nil
