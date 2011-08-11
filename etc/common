@@ -1,9 +1,3 @@
-PACKAGE="python-django-collector"
-export PACKAGE
-
-VERSION="3.0.3"
-export VERSION
-
 SQLITE3=$(which sqlite3)
 export SQLITE3
 
@@ -15,7 +9,7 @@ export PYTHON
 
 PYTHONFLAGS="-tt"
 
-if [ ! "${COLLECTOR_DEBUG}" = "" ]; then
+if [ ! "${DEBUG}" = "" ]; then
     PYTHONFLAGS="${PYTHONFLAGS} -m pdb"
 fi
 
@@ -33,70 +27,53 @@ export NOSETESTS
 NOSETESTSFLAGS="--with-coverage --cover-erase --cover-html"
 export NOSETESTSFLAGS
 
-DJANGO_SETTINGS_MODULE="collector.settings"
-
-if [ ! "${COLLECTOR_TESTS}" = "" ]; then
-    DJANGO_SETTINGS_MODULE="collector.tests.settings"
-fi
-
+DJANGO_SETTINGS_MODULE="lndlrd.settings"
 export DJANGO_SETTINGS_MODULE
 
-COLLECTOR_HOME=$(cd "${COLLECTOR_HOME}"; pwd)
-export COLLECTOR_HOME
+LNDLRD_HOME=$(cd "${LNDLRD_HOME}"; pwd)
+export LNDLRD_HOME
 
-COLLECTOR_BIN="${COLLECTOR_HOME}"/bin
-export COLLECTOR_BIN
+LNDLRD_BIN="${LNDLRD_HOME}"/bin
+export LNDLRD_BIN
 
-COLLECTOR_ETC="${COLLECTOR_HOME}"/etc
-export COLLECTOR_ETC
+LNDLRD_ETC="${LNDLRD_HOME}"/etc
+export LNDLRD_ETC
 
-COLLECTOR_LIB="${COLLECTOR_HOME}"/lib
-export COLLECTOR_LIB
+LNDLRD_LIB="${LNDLRD_HOME}"/lib
+export LNDLRD_LIB
 
-COLLECTOR_SRC="${COLLECTOR_HOME}"/src
-export COLLECTOR_SRC
+LNDLRD_SRC="${LNDLRD_HOME}"/src
+export LNDLRD_SRC
 
-COLLECTOR_VAR="${COLLECTOR_HOME}"/var
-export COLLECTOR_VAR
+LNDLRD_VAR="${LNDLRD_HOME}"/var
+export LNDLRD_VAR
 
-COLLECTOR_DATA="${COLLECTOR_VAR}"/data
-export COLLECTOR_DATA
+LNDLRD_DATA="${LNDLRD_VAR}"/data
+export LNDLRD_DATA
 
-COLLECTOR_DB="${COLLECTOR_VAR}"/db
-export COLLECTOR_DB
+LNDLRD_DB="${LNDLRD_VAR}"/db
+export LNDLRD_DB
 
-COLLECTOR_LOG="${COLLECTOR_VAR}"/log
-export COLLECTOR_LOG
+LNDLRD_LOG="${LNDLRD_VAR}"/log
+export LNDLRD_LOG
 
-COLLECTOR_RUN="${COLLECTOR_VAR}"/run
-export COLLECTOR_RUN
+LNDLRD_RUN="${LNDLRD_VAR}"/run
+export LNDLRD_RUN
 
-COLLECTOR_WWW="${COLLECTOR_VAR}"/www
-export COLLECTOR_WWW
+LNDLRD_WWW="${LNDLRD_VAR}"/www
+export LNDLRD_WWW
 
-PYTHONPATH="${COLLECTOR_LIB}"/python:"${PYTHONPATH}"
+PYTHONPATH="${LNDLRD_LIB}"/python:"${PYTHONPATH}"
 export PYTHONPATH
 
-COLLECTOR_PYTHONFLAGS=
-export COLLECTOR_PYTHONFLAGS
+LNDLRD_PYTHONFLAGS=
+export LNDLRD_PYTHONFLAGS
 
-COLLECTOR_PYLINTFLAGS="
-    --rcfile=${COLLECTOR_ETC}/pylintrc
-"
-export COLLECTOR_PYLINTFLAGS
+LNDLRD_PYLINTFLAGS=--rcfile="${LNDLRD_ETC}"/pylintrc
+export LNDLRD_PYLINTFLAGS
 
-COLLECTOR_NOSETESTSFLAGS="
-    --cover-html-dir=${COLLECTOR_HOME}/coverage
-    --cover-package=collector
-    -w ${COLLECTOR_SRC}/python/collector
-"
-export COLLECTOR_NOSETESTSFLAGS
-
-if [ ! -f "${COLLECTOR_HOME}"/setup.cfg ]; then
-    sed -e "s#\@PREFIX\@#${COLLECTOR_HOME}#g;" \
-        -e "s#\@PACKAGE\@#${PACKAGE}#g;" \
-        "${COLLECTOR_HOME}"/setup.cfg.in > "${COLLECTOR_HOME}"/setup.cfg
-fi
+LNDLRD_NOSETESTSFLAGS="--cover-package=lndlrd -w ${LNDLRD_SRC}/python/lndlrd"
+export LNDLRD_NOSETESTSFLAGS
 
 # Local Variables:
 # indent-tabs-mode: nil
