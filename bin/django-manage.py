@@ -1,8 +1,8 @@
+# -*- coding: utf-8 -*-
+
 from collector.manage import *
 
-
 execute_manager(settings)
-
 
 # Local Variables:
 # indent-tabs-mode: nil
