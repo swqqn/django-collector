@@ -1,0 +1,1 @@
+Ya ha sido eliminado?
